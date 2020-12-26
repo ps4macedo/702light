@@ -122,7 +122,7 @@ function setupRW() {
 		die("[!] Failed to setup addrof/fakeobj primitives");
 	debug_log("[+] Addrof / fakeobj obtido com sucesso");
 	debug_log("");
-	msgs.innerHTML="\n <h1 style='text-align:center;color:#6089f6;'><b>DESBLOQUEIO REALIZADO COM SUCESSO !!!</b></h1> \n \n <h2 style='text-align:center;color:#ee596f;'>AGUARDE ATÉ APARECER A MENSAGEM DE BOA VINDAS DO PS4HEN v2.1.3,</h2> \n <h2 style='text-align:center;color:#ee596f;'>DEPOIS SAIA USANDO O \"CIRCULO\". </h2> \n";
+	msgs.innerHTML="\n <h1 style='text-align:center;color:#6089f6;'><b>DESBLOQUEIO REALIZADO COM SUCESSO !!!</b></h1> \n \n <h2 style='text-align:center;color:#ee596f;'>AGUARDE ATÉ APARECER A MENSAGEM DE BOA VINDAS. SAIA USANDO O \"CIRCULO\". </h2> \n";
 	
 	var leak_slave = addrof(slave_b);
 	var slave_addr = read64(leak_slave.add(0x10));
