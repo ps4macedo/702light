@@ -2599,7 +2599,7 @@ function stage3() {
       overlapped_socket = leak_sockets[overlapped_socket_idx];
       return;
     }
-    alert("[ERROR] Falha em encontrar RTHDR <-> sobreposição de soquete mestre \n REINICIE USANDO O BOTÃO\"PS\".");
+    alert("[ERRO] Falha em encontrar RTHDR <-> sobreposição de soquete mestre \n REINICIE O PS4 USANDO O BOTÃO\"PS\".");
     while (1) {};
 
   }
@@ -2648,7 +2648,7 @@ function stage3() {
         return;
       }
     }
-    alert("[ERROR] failed to find slave");
+    alert("[ERRO] Falha ao encontrar escravo. Reinicie o PS4 sem sair dessa tela, usando o botão \"PS\" \n e tente novamente.");
     while (1) {};
   }
 
@@ -2689,7 +2689,7 @@ function stage3() {
       }
       attempt.sub32inplace(0x01000000);
     }
-    alert("[ERROR] failed to find kernel_map");
+    alert("[ERRO] Falha ao encontrar o mapa do kernel. Reinicie o PS4 sem sair dessa tela, usando o botão \"PS\" \n e tente novamente.");
     while (1) {};
   }
 
@@ -2702,7 +2702,7 @@ function stage3() {
       }
       proc = kernel_read8(proc);
     }
-    alert("[ERROR] failed to find proc");
+    alert("[ERRO] Falha ao encontrar PROC. Reinicie o PS4 sem sair dessa tela, usando o botão \"PS\" \n e tente novamente.");
     while (1) {};
   }
 
@@ -2738,7 +2738,7 @@ function stage3() {
   var exec_address = chain.syscall(477, new int64(0x90000000, 0x9), 0x100000, 0x5, 1, exec_handle, 0)
   chain.syscall(324, 1);
   if(exec_address.low != 0x90000000) {
-      alert("[ERROR] failed to allocate jit memory");
+      alert("[ERRO] Falha ao alocar memória JIT. Reinicie o PS4 sem sair dessa tela, usando o botão \"PS\" \n e tente novamente.");
       while(1){};
   }
   var exec_writer = p.array_from_address(write_address, 0x4000);
@@ -2748,7 +2748,7 @@ function stage3() {
   exec_writer[0x200] = 0x37C0C748;
   exec_writer[0x201] = 0xC3000013;
   if(chain.call(exec_address).low != 0x1337) {
-      alert("[ERROR] hmm weird");
+      alert("[ERRO] Falha desconhecida. Reinicie o PS4 sem sair dessa tela, usando o botão \"PS\" \n e tente novamente.");
       while(1){};
   }
 
