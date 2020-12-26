@@ -5,13 +5,14 @@ body{color:white;background-image:url(bg1.png);background-attachment: fixed;back
 background-repeat:no-repeat;overflow:hidden;}	
 </style>
 <body onload="statusCache();">
-<br><br><br><br>
+<br><br><br>
+<h1 style='font-size:25px;text-align:center;'><u><font color="#49c179">JAILBREAK 7.02 versão LIGHT</font></u><br><br>
 <hr width="47%" size="1" color="#ff5757">
 <script>
 function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));window.msgs.innerHTML="Instalando Cache Offline: <font color=\"#ee596f\">" + Percent + "%</font>";}
 function DisplayCacheProgress(){setTimeout(function(){window.msgs.innerHTML="<font color=\"#6089f6\">Instalação na Cache Concluída! <font color=\"#ee596f\">Aguarde ...</font></font>";},1000);setTimeout(function(){window.msgs.innerHTML="Saia usando o <font color=\"#ee596f\">CIRCULO, desabilite a REDE e REINICIE o navegador.</font>";},3000);}window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
 </script>
-<h1 id=msgs style='font-size:25px;text-align:center;color:#6089f6;'>Faça a <font color="#ee596f">limpeza da cache</font> para a ativação do HEN v2.1.3.</h1>
+<h1 id=msgs style='font-size:25px;text-align:center;color:#6089f6;'><font color="#ee596f">Faça a limpeza </font> para carregar a nova cache e ativar o HEN v2.1.3.</h1>
 <hr width="47%" size="1" color="#ff5757">
 <script>
 function statusCache(){
