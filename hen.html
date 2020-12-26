@@ -1,10 +1,7 @@
 <html>
 <style>
-body{overflow:hidden;color:white;background-image:url(bg1.png);background-attachment: fixed;background-size:100%;background-repeat:no-repeat;overflow:hidden;}	
-.button:focus,.button::-moz-focus-inner{outline:none;border:none;}
-.button{font-family:arial;font-size:8px;text-transform:uppercase;font-weight:700;border:2px solid #404040;border-radius: 4px;padding:6px;cursor:pointer;display:inline-block;  text-decoration:none;background:transparent;color:#d4d7d8;box-shadow:0 5px 0 #878787;}
-.button:hover{background:#242424;border:2px solid #ffffff;box-shadow:0 5px 0 #cccccc;color:white;}
-.button:active{background:#ee596f;position:relative;color:black;top:5px;box-shadow:none;}
+body{overflow:hidden;color: white; background-image:url(bg1.png); background-attachment:fixed; background-size:100%; background-repeat:no-repeat;}
+.button{font-family: arial;font-size:14px;text-transform: uppercase;font-weight:700;border:2px solid #404040;border-radius: 4px;padding:10px;cursor: pointer;display:inline-block; text-decoration: none;background:transparent;color:#d4d7d8;box-shadow:0 5px 0 #878787;
 input{width:25px;height:25px;background-color: transparent;}
 </style>
 	<head>
@@ -19,10 +16,10 @@ input{width:25px;height:25px;background-color: transparent;}
 		<button class="button" id="input1" onfocus="handle2()"></button>
 		<button class="button" id="input2"></button>
 		<button class="button" id="input3" onfocus="handle2()"></button>
-		<select id="select1" style="font-size:8px;height:25px;width:50px;background-color:transparent;color:#black;border:2px solid #404040;">
+		<select id="select1">
 			<option value="value1">Value1</option>
 		</select>
-	<div id="msgs"></div>
 	<script>document.getElementById("select1").style.display = "none";</script>
+	<div id="msgs"></div>
 	</body>
 </html>
